@@ -1,4 +1,4 @@
-# brandon-blog
+# TEAM-1-BLOG COMMENT
 
 Repository for semester long project.
 
