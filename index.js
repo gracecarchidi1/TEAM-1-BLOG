@@ -14,6 +14,9 @@ const app = new express();
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: true}));
 
+const fileUpload = require('express-fileupload') 
+app.use(fileUpload())
+
 app.get('/',
     async (req, res) => {
         // res.sendFile(path.resolve(__dirname, 'pages/index.html'));
@@ -54,20 +57,13 @@ app.get('/posts/new',
     }
 );
 
-app.post('/posts/store',
-    async (req, res) => {
-        // console.log(req.body);
-        // res.redirect('/');
-
-        // BlogPost.create(req.body,
-        //     (error, blogpost) => {
-        //         res.redirect('/');
-        //     }
-        // );
-
-        await BlogPost.create(req.body);
-        res.redirect('/');
-    }
-);
+app.post('/posts/store', (req, res) => {
+    let image = req.files.image;
+        image.mv(path.resolve(__dirname,'public/img',image.name),
+        async(error) => {
+        await BlogPost.create(req.body)
+        res.redirect('/')
+    })
+})
 
 app.listen(4000, () => {console.log('App listening on port 4000')});
