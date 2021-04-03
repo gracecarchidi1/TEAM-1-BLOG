@@ -17,6 +17,17 @@ const app = new express();
 const fileUpload = require('express-fileupload') 
 app.use(fileUpload())
 
+const validateMiddleWare = (req,res,next)=>{
+    if(req.files == null || req.body.title == null || req.body.title == null){
+        return res.redirect('/posts/new')
+    }
+     next()
+  }
+
+  //keep validate middleware after fileupload.
+  app.use('/posts/store',validateMiddleWare)
+
+
 app.get('/',
     async (req, res) => {
         // res.sendFile(path.resolve(__dirname, 'pages/index.html'));
@@ -70,3 +81,12 @@ app.post('/posts/store', (req, res) => {
 })
 
 app.listen(4000, () => {console.log('App listening on port 4000')});
+
+const customMiddleWare = (req,res,next)=>{
+    console.log('Custom middle ware called')
+    next()
+    }
+    app.use(customMiddleWare)
+
+
+        
