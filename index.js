@@ -15,18 +15,19 @@ const app = new express();
     app.use(bodyParser.urlencoded({extended: true}));
 
 const fileUpload = require('express-fileupload') 
-app.use(fileUpload())
+    app.use(fileUpload())
 
-const validateMiddleWare = (req,res,next)=>{
-    if(req.files == null || req.body.title == null || req.body.title == null){
-        return res.redirect('/posts/new')
+const validateMiddleWare = (req, res, next)=>{
+    if(req.files == null || req.body.title == null || req.body.body == null) {
+        return res.redirect('/posts/new');
     }
-     next()
+    next()
   }
 
   //keep validate middleware after fileupload.
   app.use('/posts/store',validateMiddleWare)
 
+const newPostController = require('./controllers/newPost');
 
 app.get('/',
     async (req, res) => {
@@ -62,31 +63,30 @@ app.get('/post/:id',
     }
 );
 
-app.get('/posts/new',
-    (req, res) => {
-        res.render('create');
-    }
-);
+app.get('/posts/new', newPostController);
 
-app.post('/posts/store', (req, res) => {
-    let image = req.files.image;
-        image.mv(path.resolve(__dirname,'public/img',image.name),
-        async(error) => {
-        await BlogPost.create({
-            ...req.body,
-            image:'/img/'+image.name
-        })
-        res.redirect('/')
-    })
-})
+app.post('/posts/store',
+    (req, res) => {
+        let image = req.files.image;
+        image.mv(path.resolve(__dirname, 'public/img', image.name),
+            async (error) => {
+                await BlogPost.create(
+                    {
+                        ...req.body,
+                        image:'/img/'+image.name
+                    }
+                );
+                        
+                res.redirect('/');
+            }
+        );
+    }
+)
 
 app.listen(4000, () => {console.log('App listening on port 4000')});
 
-const customMiddleWare = (req,res,next)=>{
-    console.log('Custom middle ware called')
-    next()
-    }
-    app.use(customMiddleWare)
-
-
-        
+const customMiddleWare = (req, res, next) => {
+    console.log('Custom middle ware called');
+    next();
+}
+    app.use(customMiddleWare);
