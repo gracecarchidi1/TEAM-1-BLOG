@@ -70,3 +70,9 @@ app.post('/posts/store', (req, res) => {
 })
 
 app.listen(4000, () => {console.log('App listening on port 4000')});
+
+const customMiddleWare = (req,res,next)=>{
+    console.log('Custom middle ware called')
+    next()
+    }
+    app.use(customMiddleWare)
