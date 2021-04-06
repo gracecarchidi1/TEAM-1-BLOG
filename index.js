@@ -14,16 +14,9 @@ const app = new express();
 const fileUpload = require('express-fileupload') 
     app.use(fileUpload())
 
-const validateMiddleWare = (req, res, next) => {
-    if(req.files == null || req.body.title == null || req.body.body == null) {
-        return res.redirect('/posts/new');
-    }
-    
-    next();
-}
-
-  //keep validate middleware after fileupload.
-  app.use('/posts/store',validateMiddleWare)
+// Keep validate middleware after fileupload
+const validateMiddleWare = require("./middleware/validationMiddleware");
+    app.use('/posts/store', validateMiddleWare);
 
 // Controller layer
 const newPostController = require('./controllers/newPost');
