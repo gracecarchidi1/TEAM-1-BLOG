@@ -24,6 +24,7 @@ const homeController = require('./controllers/home');
 const storePostController = require('./controllers/storePost');
 const getPostController = require('./controllers/getPost');
 const newUserController = require('./controllers/newUser');
+const storeUserController = require('./controllers/storeUser');
 
 app.get('/', homeController);
 
@@ -34,6 +35,8 @@ app.get('/posts/new', newPostController);
 app.post('/posts/store', storePostController);
 
 app.get('/auth/register', newUserController);
+
+app.post('/users/register', storeUserController);
 
 app.listen(4000, () => {console.log('App listening on port 4000')});
 
