@@ -11,7 +11,8 @@ const BlogPostSchema = new Schema(
             default: new Date()
         },
         image: String
-    });
+    }
+);
 
 const BlogPost = mongoose.model('BlogPost', BlogPostSchema);
 
