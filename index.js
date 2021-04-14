@@ -20,6 +20,10 @@ const fileUpload = require('express-fileupload')
 const validateMiddleWare = require("./middleware/validationMiddleware");
     app.use('/posts/store', validateMiddleWare);
 
+//auth Middleware
+const authMiddleware = require('./middleware/authMiddleware');
+
+
 // Controller layer
 const newPostController = require('./controllers/newPost');
 const homeController = require('./controllers/home');
@@ -34,9 +38,9 @@ app.get('/', homeController);
 
 app.get('/post/:id', getPostController);
 
-app.get('/posts/new', newPostController);
+app.get('/posts/new', authMiddleware, newPostController);
 
-app.post('/posts/store', storePostController);
+app.post('/posts/store', authMiddleware, storePostController);
 
 app.get('/auth/register', newUserController);
 
