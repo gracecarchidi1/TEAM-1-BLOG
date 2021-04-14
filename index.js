@@ -60,3 +60,11 @@ const customMiddleWare = (req, res, next) => {
     next();
 }
     app.use(customMiddleWare);
+
+//conditional loggedin 
+global.loggedIn = null;
+
+app.use("*",(req,res,next)=>{
+    loggedIn = req.session.userId;
+    next()
+});
