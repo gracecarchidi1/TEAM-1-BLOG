@@ -23,6 +23,8 @@ const validateMiddleWare = require("./middleware/validationMiddleware");
 //auth Middleware
 const authMiddleware = require('./middleware/authMiddleware');
 
+//redirectIfAuthenticated Middleware
+const redirectIfAuthenticatedMiddleware = require('./middleware/redirectIfAuthenticatedMiddleware')
 
 // Controller layer
 const newPostController = require('./controllers/newPost');
@@ -42,13 +44,13 @@ app.get('/posts/new', authMiddleware, newPostController);
 
 app.post('/posts/store', authMiddleware, storePostController);
 
-app.get('/auth/register', newUserController);
+app.get('/auth/register', redirectIfAuthenticatedMiddleware, newUserController);
 
-app.post('/users/register', storeUserController);
+app.post('/users/register', redirectIfAuthenticatedMiddleware, storeUserController);
 
-app.get('/auth/login', loginController);
+app.get('/auth/login', redirectIfAuthenticatedMiddleware, loginController);
 
-app.post('/users/login', loginUserController);
+app.post('/users/login', redirectIfAuthenticatedMiddleware, loginUserController);
 
 
 app.listen(4000, () => {console.log('App listening on port 4000')});
