@@ -26,6 +26,14 @@ const authMiddleware = require('./middleware/authMiddleware');
 //redirectIfAuthenticated Middleware
 const redirectIfAuthenticatedMiddleware = require('./middleware/redirectIfAuthenticatedMiddleware')
 
+//conditional loggedin 
+global.loggedIn = null;
+
+app.use("*",(req,res,next)=>{
+    loggedIn = req.session.userId;
+    next()
+});
+
 // Controller layer
 const newPostController = require('./controllers/newPost');
 const homeController = require('./controllers/home');
@@ -35,6 +43,7 @@ const newUserController = require('./controllers/newUser');
 const storeUserController = require('./controllers/storeUser');
 const loginController = require('./controllers/login');
 const loginUserController = require('./controllers/loginUser');
+const logoutController = require('./controllers/logout');
 
 app.get('/', homeController);
 
@@ -52,6 +61,10 @@ app.get('/auth/login', redirectIfAuthenticatedMiddleware, loginController);
 
 app.post('/users/login', redirectIfAuthenticatedMiddleware, loginUserController);
 
+app.get('/auth/logout', logoutController);
+
+app.use((req, res) => res.render('notfound'));
+
 
 app.listen(4000, () => {console.log('App listening on port 4000')});
 
@@ -61,10 +74,3 @@ const customMiddleWare = (req, res, next) => {
 }
     app.use(customMiddleWare);
 
-//conditional loggedin 
-global.loggedIn = null;
-
-app.use("*",(req,res,next)=>{
-    loggedIn = req.session.userId;
-    next()
-});
