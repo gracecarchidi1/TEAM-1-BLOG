@@ -34,6 +34,10 @@ app.use("*",(req,res,next)=>{
     next()
 });
 
+//connect-flash for error flushing
+const flash = require('connect-flash');
+app.use(flash());
+
 // Controller layer
 const newPostController = require('./controllers/newPost');
 const homeController = require('./controllers/home');
