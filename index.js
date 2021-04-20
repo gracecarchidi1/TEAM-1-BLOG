@@ -29,14 +29,16 @@ const redirectIfAuthenticatedMiddleware = require('./middleware/redirectIfAuthen
 //conditional loggedin 
 global.loggedIn = null;
 
-app.use("*",(req,res,next)=>{
-    loggedIn = req.session.userId;
-    next()
-});
+app.use("*",
+    (req, res, next) => {
+        loggedIn = req.session.userId;
+        next();
+    }
+);
 
 //connect-flash for error flushing
 const flash = require('connect-flash');
-app.use(flash());
+    app.use(flash());
 
 // Controller layer
 const newPostController = require('./controllers/newPost');
@@ -77,4 +79,3 @@ const customMiddleWare = (req, res, next) => {
     next();
 }
     app.use(customMiddleWare);
-
