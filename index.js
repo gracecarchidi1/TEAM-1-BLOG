@@ -15,8 +15,10 @@ const app = new express();
 
 const fileUpload = require('express-fileupload') 
     app.use(fileUpload())
+const flash = require('connect-flash');
+    app.use(flash());
 
-// Keep validate middleware after fileupload
+// Note: Keep validate middleware after fileupload & flash
 const validateMiddleWare = require("./middleware/validationMiddleware");
     app.use('/posts/store', validateMiddleWare);
 
@@ -35,10 +37,6 @@ app.use("*",
         next();
     }
 );
-
-//connect-flash for error flushing
-const flash = require('connect-flash');
-    app.use(flash());
 
 // Controller layer
 const newPostController = require('./controllers/newPost');
