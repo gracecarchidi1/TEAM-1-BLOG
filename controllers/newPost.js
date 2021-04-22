@@ -1,7 +1,21 @@
 module.exports = (req, res) => {
-    if(req.session.userId) {
-        res.render('create');
+    var title = "", body = "";
+    const data = req.flash('data')[0];
+
+    if(typeof data != "undefined") {
+        title = data.title;
+        body = data.body;
     }
 
-    res.redirect('/auth/login');
+    if(req.session.userId) {
+        res.render('create',
+            {
+                errors: req.flash('validationErrors'),
+                title: title,
+                body: body
+            }
+        );
+    } else { 
+        res.redirect('/auth/login');
+    }
 }

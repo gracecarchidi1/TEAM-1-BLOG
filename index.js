@@ -15,8 +15,10 @@ const app = new express();
 
 const fileUpload = require('express-fileupload') 
     app.use(fileUpload())
+const flash = require('connect-flash');
+    app.use(flash());
 
-// Keep validate middleware after fileupload
+// Note: Keep validate middleware after fileupload & flash
 const validateMiddleWare = require("./middleware/validationMiddleware");
     app.use('/posts/store', validateMiddleWare);
 
@@ -29,14 +31,12 @@ const redirectIfAuthenticatedMiddleware = require('./middleware/redirectIfAuthen
 //conditional loggedin 
 global.loggedIn = null;
 
-app.use("*",(req,res,next)=>{
-    loggedIn = req.session.userId;
-    next()
-});
-
-//connect-flash for error flushing
-const flash = require('connect-flash');
-app.use(flash());
+app.use("*",
+    (req, res, next) => {
+        loggedIn = req.session.userId;
+        next();
+    }
+);
 
 // Controller layer
 const newPostController = require('./controllers/newPost');
@@ -77,4 +77,3 @@ const customMiddleWare = (req, res, next) => {
     next();
 }
     app.use(customMiddleWare);
-

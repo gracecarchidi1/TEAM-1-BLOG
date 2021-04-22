@@ -1,6 +1,7 @@
-module.exports = (req, res) =>{
-    req.session.destroy(() =>{
-    res.redirect('/')
-    })
- }
-    
+module.exports = (req, res) => {
+    req.session.destroy(
+        () => {
+            res.redirect('/');
+        }
+    );
+}    

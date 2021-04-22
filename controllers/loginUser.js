@@ -11,14 +11,22 @@ module.exports = (req, res) => {
                     (error, same) => {
                         if (same) { // if passwords match
                             req.session.userId = user._id;
-                            res.redirect('/');
+                            return res.redirect('/');
                         } else {
-                            res.redirect('/auth/login');
+                            const validationErrors = ["Invalid username or password"];
+                                req.flash('validationErrors', validationErrors);
+                                req.flash('data', req.body);
+
+                            return res.redirect('/auth/login');
                         }
                     }
                 );
             } else {
-                res.redirect('/auth/login');
+                const validationErrors = ["Invalid username or password"];
+                    req.flash('validationErrors', validationErrors);
+                    req.flash('data', req.body);
+
+                return res.redirect('/auth/login');
             }
         }
     );
