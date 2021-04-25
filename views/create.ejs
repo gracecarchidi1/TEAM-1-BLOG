@@ -45,6 +45,15 @@
                             <label>Description</label>
                             <textarea rows="5" class="form-control"
                                 id="body" name="body"><%= body %></textarea>
+                            <script>
+                                $('#body').summernote(
+                                    {
+                                        placeholder: 'Hello Bootstrap 4',
+                                        tabsize: 2,
+                                        height: 200
+                                    }
+                                );
+                            </script>
                         </div>
                     </div>
                     <div class="control-group">

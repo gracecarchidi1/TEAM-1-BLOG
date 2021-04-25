@@ -12,7 +12,8 @@ module.exports = (req, res) => {
             {
                 errors: req.flash('validationErrors'),
                 title: title,
-                body: body
+                body: body,
+                createPost: true
             }
         );
     } else { 
