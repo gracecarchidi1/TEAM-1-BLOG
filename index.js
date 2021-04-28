@@ -4,7 +4,7 @@ const app = new express();
 const ejs = require('ejs');
     app.set('view engine','ejs');
 const mongoose = require('mongoose');
-    mongoose.connect('mongodb://localhost/my_database', {useNewUrlParser: true});
+mongoose.connect('mongodb+srv://nick:nickpass@cluster0.wn3hl.mongodb.net/my_database', {useNewUrlParser: true});
 const bodyParser = require("body-parser");
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: true}));
